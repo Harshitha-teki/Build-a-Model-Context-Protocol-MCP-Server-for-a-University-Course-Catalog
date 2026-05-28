@@ -1,0 +1,7 @@
+FastAPI
+SQLAlchemy
+Pydantic
+NetworkX
+uvicorn
+docker
+python-dotenv
