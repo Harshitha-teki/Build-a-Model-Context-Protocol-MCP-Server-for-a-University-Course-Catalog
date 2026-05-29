@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/ ./src/
 COPY data/ ./data/
+COPY prompts/ ./prompts/
 
 # copy entrypoint
 COPY entrypoint.sh /app/entrypoint.sh

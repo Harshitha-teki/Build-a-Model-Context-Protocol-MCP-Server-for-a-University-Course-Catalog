@@ -1,0 +1,53 @@
+name: Verify MCP Server
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:24.0.2-dind
+        privileged: true
+        options: >-
+          --privileged
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies for verification script
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Build and start services
+        run: |
+          docker compose up --build -d
+
+      - name: Wait for health
+        run: |
+          for i in {1..30}; do
+            if curl -sSf http://localhost:8080/health; then
+              echo 'healthy'
+              break
+            fi
+            sleep 2
+          done
+
+      - name: Run verification script
+        run: |
+          python tools/verify_endpoints.py
+
+      - name: Teardown
+        if: always()
+        run: |
+          docker compose down -v

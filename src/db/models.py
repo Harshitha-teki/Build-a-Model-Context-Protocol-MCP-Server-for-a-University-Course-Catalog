@@ -37,7 +37,7 @@ class Course(Base):
 
     instructor = relationship("Instructor", back_populates="courses")
     department = relationship("Department", back_populates="courses")
-    prerequisites = relationship("Prerequisite", back_populates="course")
+    prerequisites = relationship("Prerequisite", back_populates="course", foreign_keys='Prerequisite.course_id')
 
 class Prerequisite(Base):
     __tablename__ = 'prerequisites'
@@ -45,4 +45,5 @@ class Prerequisite(Base):
     course_id = Column(Integer, ForeignKey('courses.id'), primary_key=True)
     prerequisite_id = Column(Integer, ForeignKey('courses.id'), primary_key=True)
 
-    course = relationship("Course", back_populates="prerequisites")
+    course = relationship("Course", foreign_keys=[course_id], back_populates="prerequisites")
+    prerequisite = relationship("Course", foreign_keys=[prerequisite_id])

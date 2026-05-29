@@ -31,3 +31,16 @@ class GetPrerequisiteGraphRequest(BaseModel):
 class PrerequisiteGraphResponse(BaseModel):
     nodes: List[dict]
     edges: List[dict]
+
+
+class MCPTool(BaseModel):
+    name: str
+    description: Optional[str]
+    input_schema: Optional[dict]
+    output_schema: Optional[dict]
+
+
+class MCPResource(BaseModel):
+    name: str
+    description: Optional[str]
+    content: Optional[str]

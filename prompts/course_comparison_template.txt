@@ -1,0 +1,5 @@
+Create a structured comparison between two courses: {{course_code_1}} and {{course_code_2}}.
+
+Include the following columns: Title, Credits, Description, Prerequisites, Instructor, Department.
+
+For each course, fill in data from the course catalog and present the result as a markdown table.
